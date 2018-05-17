@@ -10,9 +10,10 @@ fn main() {
     while let Some(event) = window.next() {
         if let Some(upd_args) = event.update_args() {
             game.on_update(upd_args);
-        }
-        if let Some(Button::Mouse(mouse_button)) = event.press_args() {
+        } else if let Some(Button::Mouse(mouse_button)) = event.press_args() {
             println!("Click!, {:?}", mouse_button);
+        } else if let Some(Button::Keyboard(key)) = event.press_args() {
+            println!("Press!, {:?}", key);
         }
         game.on_draw(&event , &mut window);
     }
