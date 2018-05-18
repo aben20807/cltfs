@@ -3,13 +3,15 @@ use piston_window::*;
 pub struct Tank {
     rotation: f64, x: f64, y: f64,
     up_d: bool, down_d: bool, left_d: bool, right_d: bool,
+    color: [f32; 4],
 }
 
 impl Tank {
-    pub fn new() -> Tank {
+    pub fn new(color: [f32; 4]) -> Tank {
         Tank {
             rotation : 0.0, x : 0.0, y : 0.0,
             up_d: false, down_d: false, left_d: false, right_d: false,
+            color: color,
         }
     }
     pub fn on_update(&mut self, u: UpdateArgs) {
@@ -32,8 +34,7 @@ impl Tank {
             clear([0.0, 0.0, 0.0, 1.0], g);
             let center = c.transform.trans(256.0, 256.0);
             let square = rectangle::square(0.0, 0.0, 100.0);
-            let red = [1.0, 0.0, 0.0, 1.0];
-            rectangle(red, square, center.trans(self.x, self.y).rot_rad(self.rotation).trans(-50.0, -50.0), g); // We translate the rectangle slightly so that it's centered; otherwise only the top left corner would be centered
+            rectangle(self.color, square, center.trans(self.x, self.y).rot_rad(self.rotation).trans(-50.0, -50.0), g); // We translate the rectangle slightly so that it's centered; otherwise only the top left corner would be centered
         });
     }
     pub fn on_move(&mut self, btn_args: ButtonArgs) {
