@@ -20,20 +20,22 @@ fn main() {
 }
 
 struct Game {
-    rotation: f64
+    rotation: f64, x: f64, y: f64,
+    up_d: bool, down_d: bool, left_d: bool, right_d: bool
 }
 
 impl Game {
     fn new() -> Game {
-        Game { rotation : 0.0 }
+        Game {
+            rotation : 0.0, x : 0.0, y : 0.0,
+            up_d: false, down_d: false, left_d: false, right_d: false
+        }
     }
-    fn on_update(&mut self, upd: UpdateArgs) {
-        self.rotation += 3.0 * upd.dt;
+    fn on_update(&mut self, u: UpdateArgs) {
+        self.rotation += 3.0 * u.dt;
     }
-    fn on_draw(&mut self,
-               event: &piston_window::Event,
-               window: &mut PistonWindow) {
-        window.draw_2d(event, |c, g| {
+    fn on_draw(&mut self, e: &Event, w: &mut PistonWindow) {
+        w.draw_2d(e, |c, g| {
             clear([0.0, 0.0, 0.0, 1.0], g);
             let center = c.transform.trans(256.0, 256.0);
             let square = rectangle::square(0.0, 0.0, 100.0);
