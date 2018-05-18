@@ -12,14 +12,8 @@ fn main() {
             game.on_update(upd_args);
         } else if let Some(Button::Mouse(mouse_button)) = event.press_args() {
             println!("Click!, {:?}", mouse_button);
-        } else if let Some(ButtonArgs{state, button, scancode}) = event.button_args() {
-            if let Button::Keyboard(key) = button {
-                match state {
-                    ButtonState::Press => {print!("press ");},
-                    ButtonState::Release => {print!("release ");},
-                }
-                println!("{:?}", key);
-            }
+        } else if let Some(btn_args) = event.button_args() {
+            game.on_move(btn_args);
         }
         game.on_draw(&event , &mut window);
     }
@@ -49,6 +43,24 @@ impl Game {
             rectangle(red, square, center.rot_rad(self.rotation).trans(-50.0, -50.0), g); // We translate the rectangle slightly so that it's centered; otherwise only the top left corner would be centered
         });
     }
-    fn on_move() {
+    fn on_move(&mut self, btn_args: ButtonArgs) {
+        match btn_args.state {
+            ButtonState::Press =>
+                match btn_args.button {
+                    Button::Keyboard(Key::Up) => {self.up_d = true;}
+                    Button::Keyboard(Key::Down) => {self.down_d = true;}
+                    Button::Keyboard(Key::Left) => {self.left_d = true;}
+                    Button::Keyboard(Key::Right) => {self.right_d = true;}
+                    _ => {}
+                }
+            ButtonState::Release =>
+                match btn_args.button {
+                    Button::Keyboard(Key::Up) => {self.up_d = false;}
+                    Button::Keyboard(Key::Down) => {self.down_d = false;}
+                    Button::Keyboard(Key::Left) => {self.left_d = false;}
+                    Button::Keyboard(Key::Right) => {self.right_d = false;}
+                    _ => {}
+                }
+        }
     }
 }
