@@ -20,10 +20,6 @@ fn main() {
                 }
                 println!("{:?}", key);
             }
-        } else if let Some(Button::Keyboard(key)) = event.press_args() {
-            println!("Press!, {:?}", key);
-        } else if let Some(Button::Keyboard(key)) = event.release_args() {
-            println!("Release!, {:?}", key);
         }
         game.on_draw(&event , &mut window);
     }
