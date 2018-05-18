@@ -12,8 +12,18 @@ fn main() {
             game.on_update(upd_args);
         } else if let Some(Button::Mouse(mouse_button)) = event.press_args() {
             println!("Click!, {:?}", mouse_button);
+        } else if let Some(ButtonArgs{state, button, scancode}) = event.button_args() {
+            if let Button::Keyboard(key) = button {
+                match state {
+                    ButtonState::Press => {print!("press ");},
+                    ButtonState::Release => {print!("release ");},
+                }
+                println!("{:?}", key);
+            }
         } else if let Some(Button::Keyboard(key)) = event.press_args() {
             println!("Press!, {:?}", key);
+        } else if let Some(Button::Keyboard(key)) = event.release_args() {
+            println!("Release!, {:?}", key);
         }
         game.on_draw(&event , &mut window);
     }
@@ -42,5 +52,7 @@ impl Game {
             let red = [1.0, 0.0, 0.0, 1.0];
             rectangle(red, square, center.rot_rad(self.rotation).trans(-50.0, -50.0), g); // We translate the rectangle slightly so that it's centered; otherwise only the top left corner would be centered
         });
+    }
+    fn on_move() {
     }
 }
