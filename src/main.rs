@@ -3,6 +3,8 @@ extern crate piston_window;
 use piston_window::*;
 
 mod game;
+mod tank;
+
 use game::Game;
 
 fn main() {
