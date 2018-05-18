@@ -33,6 +33,18 @@ impl Game {
     }
     fn on_update(&mut self, u: UpdateArgs) {
         self.rotation += 3.0 * u.dt;
+        if self.up_d {
+            self.y += (-50.0) * u.dt;
+        }
+        if self.down_d {
+            self.y += (50.0) * u.dt;
+        }
+        if self.left_d {
+            self.x += (-50.0) * u.dt;
+        }
+        if self.right_d {
+            self.x += (50.0) * u.dt;
+        }
     }
     fn on_draw(&mut self, e: &Event, w: &mut PistonWindow) {
         w.draw_2d(e, |c, g| {
@@ -40,7 +52,7 @@ impl Game {
             let center = c.transform.trans(256.0, 256.0);
             let square = rectangle::square(0.0, 0.0, 100.0);
             let red = [1.0, 0.0, 0.0, 1.0];
-            rectangle(red, square, center.rot_rad(self.rotation).trans(-50.0, -50.0), g); // We translate the rectangle slightly so that it's centered; otherwise only the top left corner would be centered
+            rectangle(red, square, center.trans(self.x, self.y).rot_rad(self.rotation).trans(-50.0, -50.0), g); // We translate the rectangle slightly so that it's centered; otherwise only the top left corner would be centered
         });
     }
     fn on_move(&mut self, btn_args: ButtonArgs) {
